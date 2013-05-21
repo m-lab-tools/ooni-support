@@ -66,6 +66,43 @@ if [ -e $PYTHON_EXE ] ; then
   rm $PYTHON_EXE
 fi
 python $VIRTUALENV_PATH/virtualenv.py --no-site-packages $BUILD_DIR
+
+SLICE_NAME=mlab_ooni
+# Run relative to where the script was called
+SCRIPT_ROOT=`pwd`
+# Run relative to our slice path
+#SCRIPT_ROOT=/home/$SLICE_NAME
+DEPLOY_PATH=$SCRIPT_ROOT/oonib-deploy.`date +%s`.tar.gz
+
+echo Downloading $OONIB_GIT_REPO $OONIB_GIT_TAG
+OONIB_PATH=$SCRIPT_ROOT/$OONIB_GIT_REPO
+# does the repository already exist? If not, fetch it
+if [ ! -e $OONIB_PATH ] ; then
+  echo Fetching the $OONIB_GIT_REPO repository
+  git clone $OONIB_GIT_URL $OONIB_PATH
+fi
+cd $OONIB_PATH
+git fetch origin
+git checkout $OONIB_GIT_TAG
+#XXX: git-verify-tag $OONIB_GIT_TAG
+
+# Get a copy of virtualenv
+echo Downloading $VIRTUALENV_GIT_REPO $VIRTUALENV_GIT_TAG
+VIRTUALENV_PATH=$SCRIPT_ROOT/$VIRTUALENV_GIT_REPO
+if [ ! -e $VIRTUALENV_PATH ] ; then
+  git clone $VIRTUALENV_GIT_URL $VIRTUALENV_PATH
+fi
+cd $VIRTUALENV_PATH
+git fetch origin
+git checkout $VIRTUALENV_GIT_TAG
+#XXX: git verify-tag $VIRTUALENV_GIT_TAG
+  
+# See warning. Remove python and redeploy virtualenv with current python
+PYTHON_EXE=$SCRIPT_ROOT/bin/python
+if [ -e $PYTHON_EXE ] ; then
+  rm $PYTHON_EXE
+fi
+python $VIRTUALENV_PATH/virtualenv.py --no-site-packages $SCRIPT_ROOT
 if [ ! -e $PYTHON_EXE ] ; then
   exit 1
 fi
@@ -77,7 +114,7 @@ $PYTHON_EXE setup.py install
 # build a static tor
 mkdir -p $BUILD_DIR/
 cd $BUILD_DIR
-$OONIB_PATH/scripts/build_tor2web_tor.sh
+$SOURCE_DIR/build_tor2web_tor.sh
 
 # add to bin
 if [ -e $BUILD_DIR/tor ]; then
@@ -101,4 +138,3 @@ rm -rf $BUILD_DIR/tor*
 rm -rf $BUILD_DIR/openssl-*
 rm -rf $BUILD_DIR/zlib-*
 rm -rf $BUILD_DIR/build
-
