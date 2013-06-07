@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# NOTE: this script should be installed in /etc/cron.hourly
+#       it calls archive_oonib_reports in $SLICEHOME/bin/
+if test -f /etc/mlab/slice-functions ; then
+    source /etc/mlab/slice-functions
+else
+    SLICEHOME=/home/mlab_ooni
+fi
+
+# NOTE: archive script reads config files from $PWD
+cd $SLICEHOME
+
+# TODO: add arguments for dirs in /var/spool/mlab_ooni
+$SLICEHOME/bin/archive_oonib_reports
