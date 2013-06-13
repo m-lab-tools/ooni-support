@@ -37,9 +37,9 @@ OONIB_GID=`id -g $SLICENAME`
 coin=$[$RANDOM % 2]
 if [[ $coin > 0 ]]; then
   TCP_ECHO_PORT=80
-  HTTP_ECHO_PORT=81
+  HTTP_ECHO_PORT="Null"
 else
-  TCP_ECHO_PORT=81
+  TCP_ECHO_PORT="Null"
   HTTP_ECHO_PORT=80
 fi
 
@@ -87,11 +87,11 @@ helpers:
     daphn3:
         yaml_file: Null
         pcap_file: Null
-        port: 57003
+        port: Null
 
     dns:
-        udp_port: 57004
-        tcp_port: 57005
+        udp_port: Null
+        tcp_port: Null
 
     ssl:
         private_key: '$SLICEHOME/private.key'
