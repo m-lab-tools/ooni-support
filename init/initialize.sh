@@ -52,11 +52,13 @@ INPUT_DIR=$DATA_DIR/inputs
 DECK_DIR=$DATA_DIR/decks
 
 mkdir -p $REPORT_DIR
+mkdir -p $ARCHIVE_DIR
 mkdir -p $TOR_DIR
 mkdir -p $INPUT_DIR
 mkdir -p $DECK_DIR
 
 chown $SLICENAME:slices $REPORT_DIR
+chown $SLICENAME:slices $ARCHIVE_DIR
 chown -R $SLICENAME:slices $DATA_DIR
 
 # drop a policy.yaml in $DATA_DIR
