@@ -51,15 +51,15 @@ TOR_DIR=$DATA_DIR/tor
 INPUT_DIR=$DATA_DIR/inputs
 DECK_DIR=$DATA_DIR/decks
 
-mkdir -p $REPORT_DIR
-mkdir -p $ARCHIVE_DIR
+sudo mkdir -p $REPORT_DIR
+sudo mkdir -p $ARCHIVE_DIR
 mkdir -p $TOR_DIR
 mkdir -p $INPUT_DIR
 mkdir -p $DECK_DIR
 
-chown $SLICENAME:slices $REPORT_DIR
-chown $SLICENAME:slices $ARCHIVE_DIR
-chown -R $SLICENAME:slices $DATA_DIR
+sudo chown $SLICENAME:slices $REPORT_DIR
+sudo chown $SLICENAME:slices $ARCHIVE_DIR
+sudo chown -R $SLICENAME:slices $DATA_DIR
 
 # drop a policy.yaml in $DATA_DIR
 echo "
@@ -78,7 +78,7 @@ nettest:
 - {name: http_invalid_request_line, version: 0.1.4}
 - {name: multi_protocol_traceroute_test, version: 0.1.1}
 " > $DATA_DIR/policy.yaml
-chown $SLICENAME:slices $DATA_DIR/policy.yaml
+sudo chown $SLICENAME:slices $DATA_DIR/policy.yaml
 
 # drop a config in $SLICEHOME
 echo "
@@ -142,4 +142,4 @@ helpers:
         certificate: '$SLICEHOME/certificate.crt'
         port: 443" > $SLICEHOME/oonib.conf
 
-chown $SLICENAME:slices $SLICEHOME/oonib.conf
+sudo chown $SLICENAME:slices $SLICEHOME/oonib.conf
