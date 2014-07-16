@@ -78,6 +78,10 @@ fi
 
 # run setup.py and fetch dependencies
 cd $OONIB_PATH
+pip install -r requirements.txt --use-mirrors
+# From the Ooni README: Note: it is important that you install the requirements
+# before you run the setup.py script. If you fail to do so they will be
+# downloaded over plaintext.
 $PYTHON_EXE setup.py install
 
 # build a static tor
