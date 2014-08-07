@@ -146,8 +146,8 @@ Also, check the log file and verify that there are no errors or exceptions.
 
 If this is the bouncer host, after verifying that the bouncer is enabled in the `oonib.log` as above, also verify that the mlab-ns integration cron script is installed:
 
-   [mlab_ooni@mlab1 ~]$ ls -l /etc/cron.hourly/50_update_ooni_bouncer_from_mlab_ns.sh
-   lrwxrwxrwx 1 root root 37 Jul 30 21:48 /etc/cron.hourly/50_update_ooni_bouncer_from_mlab_ns.sh -> /home/mlab_ooni/bin/update-bouncer.sh
+    [mlab_ooni@mlab1 ~]$ ls -l /etc/cron.hourly/50_update_ooni_bouncer_from_mlab_ns.sh
+    lrwxrwxrwx 1 root root 37 Jul 30 21:48 /etc/cron.hourly/50_update_ooni_bouncer_from_mlab_ns.sh -> /home/mlab_ooni/bin/update-bouncer.sh
 
 
 ### 4. Verify mlab-ns integration is working.
