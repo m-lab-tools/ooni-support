@@ -8,7 +8,7 @@ import os
 
 def read_parts_from_mlabns():
     # Download the JSON list of slivers.
-    MLAB_NS_QUERY_URL = "http://localhost:8585/ooni?match=all"
+    MLAB_NS_QUERY_URL = "http://localhost:8585/ooni?policy=all"
     DEVNULL = open(os.devnull, "w")
     wget = subprocess.Popen(["wget", MLAB_NS_QUERY_URL, "-O", "-"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     json_list, error_output = wget.communicate()

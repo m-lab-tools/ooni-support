@@ -42,7 +42,7 @@ class LookupResourceTests (unittest.TestCase):
         # Fake a request with sufficient parameters:
         m_request.args = {
             'format': ['json'],
-            'match': ['all'],
+            'policy': ['all'],
             }
 
         # Execute the code under test:
@@ -60,11 +60,11 @@ class LookupResourceTests (unittest.TestCase):
 
     def test_render_GET_bad_args(self):
         vector = [
-            ({}, "Missing 'match' parameter."),
-            ({'match': ['a', 'b']}, "Multiple 'match' parameters unsupported."),
-            ({'match': ['best']}, "Only 'match=all' parameter supported."),
-            ({'match': ['all'], 'format': ['a', 'b']}, "Multiple 'format' parameters unsupported."),
-            ({'match': ['all'], 'format': ['foo']}, "Only 'format=json' parameter supported."),
+            ({}, "Missing 'policy' parameter."),
+            ({'policy': ['a', 'b']}, "Multiple 'policy' parameters unsupported."),
+            ({'policy': ['best']}, "Only 'policy=all' parameter supported."),
+            ({'policy': ['all'], 'format': ['a', 'b']}, "Multiple 'format' parameters unsupported."),
+            ({'policy': ['all'], 'format': ['foo']}, "Only 'format=json' parameter supported."),
             ]
 
         for (args, errmsg) in vector:

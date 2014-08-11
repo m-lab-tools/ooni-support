@@ -27,10 +27,10 @@ class LookupSimulatorResource (resource.Resource):
         self._log.debug('Request args: %r', request.args)
 
         try:
-            match = self._unpack_arg(request, 'match')
+            policy = self._unpack_arg(request, 'policy')
             format = self._unpack_arg(request, 'format', 'json')
-            if match != 'all':
-                raise BadParameter("Only 'match=all' parameter supported.")
+            if policy != 'all':
+                raise BadParameter("Only 'policy=all' parameter supported.")
             if format != 'json':
                 raise BadParameter("Only 'format=json' parameter supported.")
         except BadParameter, e:
