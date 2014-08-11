@@ -35,11 +35,11 @@ Building the Ooni RPM
 Follow these steps to build the Ooni RPM.
 
 1. First, create a temporary directory *outside* of `/home/mlab_ooni` and clone
-   `ooni-support` there: 
+   `ooni-support` there:
 
         cd /tmp/
         git clone --recursive https://github.com/m-lab-tools/ooni-support.git
-   
+
 2. Change directories into the `ooni-support` clone.
 3. Run `git checkout <tag>` where `<tag>` is the tag you want to build.
 4. Ensure that it is OK to delete everything in `/home/mlab_ooni`. Create
@@ -111,7 +111,7 @@ After deployment, integration tests should be performed to ensure the
 full Ooni stack and mlab-ns integration are working properly.
 
 The end goal is to run ooniprobe against the deployment and verify that
-a report is collected.  The specific steps are as follows:
+a report is collected. The specific steps are as follows:
 
 ### 1. Deploy the Ooni Slice
 
@@ -123,13 +123,13 @@ This is documented above.
 1. SSH into a given Ooni sliver.
 2. Run `ls -l /home/mlab_ooni/oonib.conf` to ensure this file exists.
 3. Run `sudo /home/mlab_ooni/init/start.sh` to start oonib.
-4. Run `ps aux | grep oonib` and verify there is a single oonib process.  Make sure the first column, `UID` is *not* root.  Here's an example output of a correct process listing:
+4. Run `ps aux | grep oonib` and verify there is a single oonib process. Make sure the first column, `UID` is *not* root. Here's an example output of a correct process listing:
 
     [mlab_ooni@mlab1 ~]$ ps aux | grep oonib
     543      26510  0.0  0.1  41140 22840 ?        SNl  Aug05   0:00 /home/mlab_ooni/bin/python /home/mlab_ooni/bin/oonib -c /home/mlab_ooni/oonib.conf
     543      27256  0.0  0.0   2280   560 ?        S+   Aug05   0:00 grep oonib
 
-5. Examine the `oonib` log to verify HTTP test_helper, the collector, and optionally the bouncer are running, and there are no errors.
+5. Examine the `oonib` log to verify HTTP test\_helper, the collector, and optionally the bouncer are running, and there are no errors.
 
 Here are some example lines for the started services:
 
@@ -137,7 +137,7 @@ Here are some example lines for the started services:
     2014-08-06 22:01:06+0000 Exposed collector Tor hidden service on httpo://fooblah.onion
     2014-08-06 22:01:06+0000 Exposed bouncer Tor hidden service on httpo://examplebouncer.onion
 
-Note: The bouncer only runs on a single host which is defined in `BOUNCER_HOST` in `/home/mlab_ooni/init/initialize.sh`.  If this log is on the bouncer host, remember to save the bouncer `.onion` for the Step 6 below.
+Note: The bouncer only runs on a single host which is defined in `BOUNCER_HOST` in `/home/mlab_ooni/init/initialize.sh`. If this log is on the bouncer host, remember to save the bouncer `.onion` for the Step 6 below.
 
 Also, check the log file and verify that there are no errors or exceptions.
 
@@ -154,9 +154,9 @@ If this is the bouncer host, after verifying that the bouncer is enabled in the 
 
 #### 4a. Verify the mlab-ns-simulator is running.
 
-Note: This will change as mlab-ns integration is developed.  Currently the deployment relies on a simulator, so these instructions are specific to the simulator.
+Note: This will change as mlab-ns integration is developed. Currently the deployment relies on a simulator, so these instructions are specific to the simulator.
 
-The mlab-ns-simulator only runs on a single host, defined by `MLABSIM_HOME` in `BOUNCER_HOST` in `/home/mlab_ooni/init/start.sh`.  After all of the prior steps, on this particular host you should also verify that `mlabsim` is running:
+The mlab-ns-simulator only runs on a single host, defined by `MLABSIM_HOME` in `BOUNCER_HOST` in `/home/mlab_ooni/init/start.sh`. After all of the prior steps, on this particular host you should also verify that `mlabsim` is running:
 
     [mlab_ooni@mlab1 ~]$ ps aux | grep mlabsim
     root     26482  0.0  0.1  26916 21904 ?        SN   Aug05   0:01 /home/mlab_ooni/bin/python /home/mlab_ooni/bin/mlabsim --log-level DEBUG
@@ -167,9 +167,9 @@ The mlab-ns-simulator only runs on a single host, defined by `MLABSIM_HOME` in `
 
 Note: This may be specific to the simulator deployment and may change when nagios integration is complete.
 
-On any sliver, run `/home/mlab_ooni/bin/getconfig.py`.  Also, save the IP address of this slivver for the next step, which comes from running `get_ipv4.sh`.
+On any sliver, run `/home/mlab_ooni/bin/getconfig.py`. Also, save the IP address of this slivver for the next step, which comes from running `get_ipv4.sh`.
 
-Now verify that the above sliver's information appears in the simulator.  Log into the simulator host and run:
+Now verify that the above sliver's information appears in the simulator. Log into the simulator host and run:
 
     curl -sv 'http://127.0.0.1:8585/ooni?match=all'
 
