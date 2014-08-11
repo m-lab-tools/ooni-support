@@ -100,9 +100,10 @@ To start and stop the Ooni backend service, change directories into the `init`
 subdirectory of the `ooni-support` repository and run `sudo ./start.sh` and
 `sudo ./stop.sh` respectively.
 
-If the slice's hostname matches the `MLABSIM_HOME` defined in `start.sh`, then
-the mlab-ns simulator will be started when `start.sh` is run and stopped when
-`stop.sh` is run.
+If you would like to start the `mlab-ns` simulator, run `sudo
+./start-mlabsim.sh`, and the simulator will start if the slice's hostname
+matches the `MLABSIM_HOME` defined in `start-mlabsim.sh`. Run `sudo
+./stop-mlabsim.sh` to stop the simulator.
 
 Testing
 --------
@@ -123,13 +124,14 @@ This is documented above.
 1. SSH into a given Ooni sliver.
 2. Run `ls -l /home/mlab_ooni/oonib.conf` to ensure this file exists.
 3. Run `sudo /home/mlab_ooni/init/start.sh` to start oonib.
-4. Run `ps aux | grep oonib` and verify there is a single oonib process. Make sure the first column, `UID` is *not* root. Here's an example output of a correct process listing:
+4. Run `sudo /home/mlab_ooni/init/start-mlabsim.sh` to start the `mlab-ns` simulator if this is the simulator home.
+5. Run `ps aux | grep oonib` and verify there is a single oonib process. Make sure the first column, `UID` is *not* root. Here's an example output of a correct process listing:
 
     [mlab_ooni@mlab1 ~]$ ps aux | grep oonib
     543      26510  0.0  0.1  41140 22840 ?        SNl  Aug05   0:00 /home/mlab_ooni/bin/python /home/mlab_ooni/bin/oonib -c /home/mlab_ooni/oonib.conf
     543      27256  0.0  0.0   2280   560 ?        S+   Aug05   0:00 grep oonib
 
-5. Examine the `oonib` log to verify HTTP test\_helper, the collector, and optionally the bouncer are running, and there are no errors.
+6. Examine the `oonib` log to verify HTTP test\_helper, the collector, and optionally the bouncer are running, and there are no errors.
 
 Here are some example lines for the started services:
 
@@ -152,16 +154,18 @@ If this is the bouncer host, after verifying that the bouncer is enabled in the 
 
 ### 4. Verify mlab-ns integration is working.
 
-#### 4a. Verify the mlab-ns-simulator is running.
+#### 4a. Verify the mlab-ns-simulator is (or is not) running.
 
 Note: This will change as mlab-ns integration is developed. Currently the deployment relies on a simulator, so these instructions are specific to the simulator.
 
-The mlab-ns-simulator only runs on a single host, defined by `MLABSIM_HOME` in `BOUNCER_HOST` in `/home/mlab_ooni/init/start.sh`. After all of the prior steps, on this particular host you should also verify that `mlabsim` is running:
+The mlab-ns-simulator only runs on a single host, defined by `MLABSIM_HOME` in `BOUNCER_HOST` in `/home/mlab_ooni/init/start-mlabsim.sh`. After all of the prior steps, on this particular host you should also verify that `mlabsim` is running:
 
     [mlab_ooni@mlab1 ~]$ ps aux | grep mlabsim
     root     26482  0.0  0.1  26916 21904 ?        SN   Aug05   0:01 /home/mlab_ooni/bin/python /home/mlab_ooni/bin/mlabsim --log-level DEBUG
     543      28177  0.0  0.0   2280   560 ?        S+   Aug05   0:00 grep mlabsim
 
+If this host is not `MLABSIM_HOME`, then verify that the `mlab-ns` simulator is
+*not* running.
 
 #### 4b. Manually run getconfig.py
 
