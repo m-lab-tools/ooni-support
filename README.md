@@ -41,7 +41,8 @@ Follow these steps to build the Ooni RPM.
         git clone --recursive https://github.com/m-lab-tools/ooni-support.git
 
 2. Change directories into the `ooni-support` clone.
-3. Run `git checkout <tag>` where `<tag>` is the tag you want to build.
+3. Run `git checkout <tag>` where `<tag>` is the tag you want to build, and run
+   `git submodule update` if necessary.
 4. Ensure that it is OK to delete everything in `/home/mlab_ooni`. Create
    a backup just in case.
 5. Run `./package/slicebuild.sh mlab_ooni`.
