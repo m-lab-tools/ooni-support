@@ -8,7 +8,7 @@ import os
 
 def read_parts_from_mlabns():
     # Download the JSON list of slivers.
-    MLAB_NS_QUERY_URL = "http://localhost:8585/ooni?policy=all"
+    MLAB_NS_QUERY_URL = "http://mlab-nstesting.appspot.com/ooni?policy=all"
     DEVNULL = open(os.devnull, "w")
     wget = subprocess.Popen(["wget", MLAB_NS_QUERY_URL, "-O", "-"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     json_list, error_output = wget.communicate()
@@ -25,11 +25,19 @@ def read_parts_from_mlabns():
         print "wget could not download the JSON list."
         exit(1)
 
-    # Parse the JSON list, and map it into a list of the tool_extra fields.
+    # Parse the JSON response.
     sliver_list = json.loads(json_list)
+
+    # Special case: If there's only one, it's not inside of an array.
+    if not isinstance(sliver_list, list):
+        sliver_list = [sliver_list]
+
+    # Map each sliver into its part of the config file (in tool_extra).
     part_list = []
     for sliver in sliver_list:
-        part_list.append(sliver['tool_extra'])
+        tool_extra_obj = json.loads(sliver['tool_extra'])
+        part_list.append(tool_extra_obj)
+
     return part_list
 
 def assemble_bouncer_config(parts):
