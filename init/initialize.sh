@@ -151,6 +151,12 @@ helpers:
         udp_port: Null
         tcp_port: Null
 
+    dns_discovery:
+        address: Null
+        udp_port: Null
+        tcp_port: Null
+        resolver_address: Null
+
     ssl:
         address: Null
         private_key: '$SLICEHOME/private.key'
