@@ -47,6 +47,7 @@ VIRTUALENV_GIT_REPO=virtualenv
 
 echo Installing build tools
 sudo yum groupinstall -y Development\ Tools
+sudo yum groupinstall -y gcc
 
 echo Installing openssl-devel
 sudo yum install -y openssl-devel
@@ -57,15 +58,12 @@ sudo yum install -y glibc-static
 echo Installing python-devel
 sudo yum install -y python-devel
 
-echo Installing sqlite-devel
-sudo yum install -y sqlite-devel
-
 echo Installing libffi-devel
 sudo yum install -y libffi-devel
 
 OONIB_PATH=$SOURCE_DIR/$OONIB_GIT_REPO
 VIRTUALENV_PATH=$SOURCE_DIR/$VIRTUALENV_GIT_REPO
-  
+
 # See warning. Remove python and redeploy virtualenv with current python
 PYTHON_EXE=$BUILD_DIR/bin/python
 if [ -e $PYTHON_EXE ] ; then
@@ -78,7 +76,12 @@ fi
 
 # run setup.py and fetch dependencies
 cd $OONIB_PATH
-pip install -r requirements.txt --use-mirrors || exit 1
+
+# Ensure we install dependencies that are compatible with Python 2.6
+$BUILD_DIR/bin/pip install Twisted==13.2.0
+$BUILD_DIR/bin/pip install txtorcon==0.14.0
+
+$BUILD_DIR/bin/pip install -r requirements.txt || exit 1
 # From the Ooni README: Note: it is important that you install the requirements
 # before you run the setup.py script. If you fail to do so they will be
 # downloaded over plaintext.
@@ -86,12 +89,12 @@ $PYTHON_EXE setup.py install
 
 # install mlab-ns-simulator and its dependencies:
 MLABSIM_SOURCE=$SOURCE_DIR/mlab-ns-simulator
-$BUILD_DIR/bin/pip install --requirement $MLABSIM_SOURCE/requirements.txt --use-mirrors || exit 1
+$BUILD_DIR/bin/pip install --requirement $MLABSIM_SOURCE/requirements.txt || exit 1
 $BUILD_DIR/bin/pip install $MLABSIM_SOURCE
 
 # install bouncer-plumbing and its dependencies:
 PLUMBING_SOURCE=$SOURCE_DIR/bouncer-plumbing
-#$BUILD_DIR/bin/pip install --requirement $PLUMBING_SOURCE/requirements.txt --use-mirrors || exit 1
+#$BUILD_DIR/bin/pip install --requirement $PLUMBING_SOURCE/requirements.txt || exit 1
 $BUILD_DIR/bin/pip install $PLUMBING_SOURCE
 
 # build a static tor
@@ -121,4 +124,4 @@ rm -rf $BUILD_DIR/tor*
 rm -rf $BUILD_DIR/openssl-*
 rm -rf $BUILD_DIR/zlib-*
 rm -rf $BUILD_DIR/build
-
+rm -rf $BUILD_DIR/.cache

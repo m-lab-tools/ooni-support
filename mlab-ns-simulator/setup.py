@@ -12,7 +12,7 @@ from setuptools import setup, find_packages, Command
 VERSION = '0.1.dev0'
 
 # Note: The dependency versions are chosen to match ooni-backend where they overlap:
-TwistedDependency = 'twisted == 13.0' # BUG: Include the hash as per ooni-backend.
+TwistedDependency = 'twisted == 13.2.0' # BUG: Include the hash as per ooni-backend.
 
 
 def run(*args):

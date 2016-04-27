@@ -81,6 +81,8 @@ sudo chown -R root $TOR_DIR
 echo "
 nettest:
 - {name: http_header_field_manipulation, version: 0.1.3}
+- {name: http_header_field_manipulation, version: 0.1.4}
+- {name: http_header_field_manipulation, version: 0.1.5}
 " > $DATA_DIR/policy.yaml
 sudo chown $SLICENAME:slices $DATA_DIR/policy.yaml
 
@@ -120,7 +122,7 @@ main:
     originalname: null
     chroot: null
     rundir: '$SLICEHOME'
-    umask: $UMASK
+    umask: '$UMASK'
     euid: null
     uid: $OONIB_UID
     gid: $OONIB_GID
@@ -131,7 +133,7 @@ main:
     debug: false
     stale_time: 3600
 
-    report_file_template: '{year}/{month}/{day}/{year}{month}{day}T{hour}:{minute}:{second}-{probe_cc}-{test_name}-{iso8601_timestamp}-{probe_asn}-probe.yamloo'
+    report_file_template: '{year}/{month}/{day}/{year}{month}{day}T{hour}:{minute}:{second}-{probe_cc}-{test_name}-{iso8601_timestamp}-{probe_asn}-probe.{ext}'
 
 helpers:
     http-return-json-headers:
